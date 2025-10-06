@@ -17,6 +17,9 @@ services:
       - RUCIO_CFG_DATABASE_DEFAULT=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@ruciodb/${POSTGRES_DB}
       - RUCIO_CA_PATH=/etc/grid-security/certificates
       - RUCIO_ENABLE_LOGFILE=True
+    depends_on:
+       - ruciodb
+    restart: unless-stopped
   ruciodb:
     image: postgres:11
     environment:
@@ -28,6 +31,7 @@ services:
     command: ["-c", "fsync=off","-c", "synchronous_commit=off","-c", "full_page_writes=off"]
     volumes:
       - vol-ruciodb-data:/var/lib/postgresql/data
+    restart: unless-stopped
    rucio-daemons-abacus:
      image: rucio/rucio-daemons:release-1.26.11
      volumes:
@@ -37,6 +41,10 @@ services:
      environment:
        - RUCIO_DAEMON=abacus-rse
        - RUCIO_ENABLE_LOGS=True
+     depends_on:
+       - ruciodb
+       - rucio-server
+     restart: unless-stopped
    rucio-daemons-reaper:
      image: rucio/rucio-daemons:release-1.26.11
      volumes:
@@ -49,6 +57,10 @@ services:
        - RUCIO_DAEMON=reaper
        - RUCIO_ENABLE_LOGS=True 
        - X509_USER_PROXY=/opt/rucio/etc/x509
+     depends_on:
+       - ruciodb
+       - rucio-server
+     restart: unless-stopped
    rucio-daemons-undertaker:
      image: rucio/rucio-daemons:release-1.26.11
      volumes:
@@ -56,8 +68,12 @@ services:
        # comment out the following to use docker compose logs only. This logs to the host system, when we have space
        - /var/log/rucio:/var/log/rucio
      environment:
-      - RUCIO_DAEMON=undertaker
-      - RUCIO_ENABLE_LOGS=True
+       - RUCIO_DAEMON=undertaker
+       - RUCIO_ENABLE_LOGS=True
+     depends_on:
+       - ruciodb
+       - rucio-server
+     restart: unless-stopped
 
 volumes:
   vol-ruciodb-data:
