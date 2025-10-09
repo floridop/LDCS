@@ -1,0 +1,17 @@
+services:
+  actdb:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: $ACTDB_ROOT_PASSWORD
+      MYSQL_USER: $ACTDB_USER
+      MYSQL_PASSWORD: $ACTDB_PASSWORD
+      MYSQL_DATABASE: $ACTDB_DATABASE
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - vol-actdb-data:/var/lib/mysql:Z
+
+volumes:
+  vol-actdb-data:
+
