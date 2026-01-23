@@ -25,12 +25,12 @@ Make sure passwords and paths match between the configFiles and the docker-compo
 5) Start all the services with docker-compose
 
 ```
-docker compose -f docker-compose-actdb.yml up -d
+docker compose -f docker-compose-actdb-apache2.yml up -d
 
 ```
 6) To stop all the services:
 ```
-docker compose -f docker-compose-actdb.yml down
+docker compose -f docker-compose-actdb-apache2.yml down
 
 ```
 
