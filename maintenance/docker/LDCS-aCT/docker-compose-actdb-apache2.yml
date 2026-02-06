@@ -16,7 +16,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - /scratch/www/htdocs/:/usr/local/apache2/htdocs/
+      - /act_logs/www/html/:/usr/local/apache2/htdocs/
 
 volumes:
   vol-actdb-data:
