@@ -10,8 +10,10 @@
     rotate 5
     compress
     delaycompress
+    prerotate
+      docker compose -f /home/almalinux/LDCS-rucio/docker-compose-rucioserver-postgres-daemons.yml down
+    endscript
     postrotate
-       docker compose -f /home/almalinux/LDCS-rucio/docker-compose-rucioserver-postgres-daemons.yml restart rucio-server rucio-daemons-abacus rucio-daemons-reaper rucio-daemons-undertaker
+       docker compose -f /home/almalinux/LDCS-rucio/docker-compose-rucioserver-postgres-daemons.yml up -d
     endscript
 }
-
