@@ -1,5 +1,18 @@
-#!/bin/bash -x
+#!/bin/bash
 
+echo "This script will create a new LDCS CA in a new directory called CA"
+
+# TODO: add a flag to force creation if CA exists
+if [ -d ./CA ]; then
+   echo "CA directory already exists. Cannot continue."
+   echo "Delete, rename or backup the current CA directory to continue"
+   exit 1
+fi
+
+mkdir CA
+cd CA
+
+# TODO: add backup of previous CA if files exist
 SUBJECT='/DC=org/DC=nordugrid/DC=ARC/O=LDMX/CN=LDCS CA'
 CANAME='LDCS-CA'
 MESSAGEDIGEST='sha512'
@@ -27,5 +40,6 @@ for h in $CERTHASH; do
    ln -s $CANAME.signing_policy $h.signing_policy
 done
 
-
-
+# Create CA tarball
+echo "Creating CA tarball LDCS_CA.tgz"
+tar -zcvf LDCS-CA.tgz --exclude-from=../excludelist *
