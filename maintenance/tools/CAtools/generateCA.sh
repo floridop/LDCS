@@ -41,5 +41,5 @@ for h in $CERTHASH; do
 done
 
 # Create CA tarball
-echo "Creating CA tarball LDCS_CA.tgz"
+echo "Creating CA tarball LDCS-CA.tgz"
 tar -zcvf LDCS-CA.tgz --exclude-from=../excludelist *
